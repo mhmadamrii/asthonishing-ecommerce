@@ -1,9 +1,16 @@
 import "~/styles/globals.css";
 
-import { GeistSans } from "geist/font/sans";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import { type Metadata } from "next";
-
 import { TRPCReactProvider } from "~/trpc/react";
+import { ThemeProvider } from "~/components/theme/theme-provider";
+import { Navbar } from "~/components/globals/navbar";
+
+const inter = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["400", "500", "600", "700"],
+});
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -15,9 +22,14 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
+    <html lang="en" className={inter.className}>
       <body>
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <TRPCReactProvider>
+            <Navbar />
+            {children}
+          </TRPCReactProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
